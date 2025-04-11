@@ -2,10 +2,10 @@ const { default: mongoose } = require("mongoose");
 
 const userSchema = mongoose.Schema(
   {
-    username: { type: String },
     name: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    profilePicture: { type: String },
     verifyToken: { type: String },
     isVerified: { type: Boolean, default: false },
     verifyTokenExpiry: {

@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendEmail } = require("../utils/nodemailer");
 const randomToken = require("random-token");
+const { admin } = require("../utils/firebase-admin");
 
 // useable functions :-
 async function sendWelcomeMail(email, name, token) {
@@ -142,4 +143,40 @@ const verifyToken = async (req, res) => {
   }
 };
 
-module.exports = { signup, login, verifyToken };
+const verifyFirebaseUser = async (req, res) => {
+  const { idToken } = req.body;
+  try {
+    const decoded = await admin.auth().verifyIdToken(idToken);
+
+    if (!decoded) {
+      return res.status().json({ message: "Invalid token" });
+    }
+    const { uid, email, name, picture } = decoded;
+
+    let user = await UserModel.findOne({ email });
+
+    if (!user) {
+      user = await UserModel.create({
+        email,
+        name,
+        profilePicture: picture,
+        isVerified: true,
+        password:"12345678"
+      });
+    }
+
+    const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({ message: "User logged in", data: user });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { signup, login, verifyToken, verifyFirebaseUser };
