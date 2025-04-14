@@ -1,6 +1,7 @@
 // 📁 controllers/message.controller.js
 const { MessageModel } = require("../models/Message.model");
 const { ConversationModel } = require("../models/Conversation.model");
+const { io } = require("../socket");
 
 // 🔹 Send a message
 const sendMessage = async (req, res) => {
@@ -15,6 +16,15 @@ const sendMessage = async (req, res) => {
 
     await ConversationModel.findByIdAndUpdate(conversationId, {
       $push: { messages: newMessage._id },
+    });
+
+    // Emit message to all sockets in that conversation room
+    io.to(conversationId).emit("receive_message", {
+      conversationId,
+      message: newMessage.message,
+      senderId,
+      _id: newMessage._id,
+      createdAt: newMessage.createdAt,
     });
 
     return res.status(201).json({ message: newMessage });
