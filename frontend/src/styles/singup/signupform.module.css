@@ -1,0 +1,115 @@
+.singup_container {
+  background-color: #ffffff;
+  width: 30%;
+  padding: 4rem;
+  border-radius: 10px;
+}
+
+.signup_heading {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  padding: 0.2rem;
+}
+/* Form div */
+
+.forms {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.forms > input {
+  padding: 1rem;
+  border-radius: 10px;
+  border: none;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.forms > button {
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #ed5584;
+  border: none;
+  box-shadow:
+    rgba(0, 0, 0, 0.07) 0px 1px 2px,
+    rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px,
+    rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px,
+    rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.forms_div {
+  /* background-color: red; */
+}
+
+/* HR Break */
+
+.hr_div {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.hr_div hr {
+  flex: 1;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+.hr_div span {
+  margin: 0 1rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  background-color: white;
+}
+
+/* Links */
+
+.links_div {
+  /* background-color: blueviolet; */
+}
+
+.external_links {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.auth_toggler {
+  text-align: center;
+  margin-top: 1.3rem;
+  font-size: 1.3rem;
+}
+
+/* -----------------------TABLETS SCREEN ----------------------------- */
+
+@media (max-width: 1023px) {
+  .singup_container {
+    width: 40%;
+  }
+}
+
+/* ---------------------- MOBILE SCREEN ------------------------------- */
+
+@media (max-width: 767px) {
+  .singup_container {
+    width: 50%;
+  }
+}
+
+/* ---------------------- VERY SMALL MOBILE SCREEN ------------------------------- */
+
+@media (max-width: 480px) {
+  .singup_container {
+    width: 65%;
+  }
+}
