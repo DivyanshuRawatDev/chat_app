@@ -26,6 +26,16 @@ export const fetchLoginUser = createAsyncThunk('auth/login', async ({ email, pas
   }
 });
 
+export const fetchFirebaseSignup = createAsyncThunk('auth/firbasesignup', async (idToken) => {
+  try {
+    const user = await API.post('/auth/firebase', { idToken });
+    toast.success(user.data.message);
+    return user.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -62,6 +72,22 @@ const authSlice = createSlice({
       state.isError = false;
     });
     builder.addCase(fetchLoginUser.rejected, (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    });
+
+    // ------------ Firebase Login ------------------
+    builder.addCase(fetchFirebaseSignup.pending, (state) => {
+      state.isError = false;
+      state.isLoading = true;
+    });
+
+    builder.addCase(fetchFirebaseSignup.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload?.user;
+      state.isError = false;
+    });
+    builder.addCase(fetchFirebaseSignup.rejected, (state) => {
       state.isLoading = false;
       state.isError = true;
     });

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styles from '../../styles/login/loginform.module.css';
 import { useDispatch } from 'react-redux';
-import { fetchLoginUser } from '../../redux/slices/authSlice';
+import { fetchFirebaseSignup, fetchLoginUser } from '../../redux/slices/authSlice';
+import { signInWithGoogle } from '../../utils/firebase';
 
 const LoginForm = () => {
   const [userData, setUserData] = useState({ email: '', password: '' });
@@ -17,6 +18,14 @@ const LoginForm = () => {
 
   const handleLogin = () => {
     dispatch(fetchLoginUser(userData));
+  };
+
+  const handleGoogleLogin = () => {
+    signInWithGoogle()
+      .then((idToken) => {
+        dispatch(fetchFirebaseSignup(idToken))
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div
@@ -45,7 +54,7 @@ const LoginForm = () => {
         </div>
         <div className={styles.links_div}>
           <div className={styles.external_links}>
-            <img src="/src/assets/auth/google.svg" alt="Google Logo" />
+            <img src="/src/assets/auth/google.svg" alt="Google Logo" onClick={handleGoogleLogin} />
             <img src="/src/assets/auth/facebook.svg" alt="Google Logo" />
             <img src="/src/assets/auth/linkedin.svg" alt="Google Logo" />
           </div>
